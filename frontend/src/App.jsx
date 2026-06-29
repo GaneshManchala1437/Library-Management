@@ -99,7 +99,7 @@ function App() {
       </header>
 
       {/* Content views */}
-      {view === 'home' && <HomeView setView={setView} showNotification={showNotification} />}
+      {view === 'home' && <HomeView setView={setView} />}
       {view === 'user-login' && (
         <LoginView
           role="user"
@@ -148,20 +148,7 @@ function App() {
 /* ==========================================================================
    1. HOME VIEW
    ========================================================================== */
-function HomeView({ setView, showNotification }) {
-  const [seeding, setSeeding] = useState(false);
-
-  const handleSeed = async () => {
-    setSeeding(true);
-    const res = await db.seedServerDatabase();
-    setSeeding(false);
-    if (res.success) {
-      showNotification(res.message, 'success');
-    } else {
-      showNotification(res.message + ' (Make sure your backend Node server is running on port 5000)', 'error');
-    }
-  };
-
+function HomeView({ setView }) {
   return (
     <>
       <div className="hero-section">
@@ -171,18 +158,6 @@ function HomeView({ setView, showNotification }) {
         <p className="hero-subtitle">
           An advanced repository management system designed with the modern student and librarian in mind.
         </p>
-        
-        {/* Helper DB Seeder for Backend Mode */}
-        <div style={{ margin: '-1.5rem auto 3rem auto', animation: 'fadeIn 0.5s' }}>
-          <button 
-            className="btn btn-secondary btn-sm" 
-            onClick={handleSeed}
-            disabled={seeding}
-            style={{ border: '1px dashed var(--accent-purple)' }}
-          >
-            ⚙️ {seeding ? 'Seeding MongoDB...' : 'One-Click Seed MongoDB Data'}
-          </button>
-        </div>
       </div>
 
       <div className="portal-grid">
@@ -203,7 +178,7 @@ function HomeView({ setView, showNotification }) {
           <p style={{ color: 'var(--text-secondary)' }}>
             Administrative panel to register records, track branch borrowings, and manage transactions.
           </p>
-          <button className="btn btn-secondary" style={{ marginTop: 'auto' }}>
+          <button className="btn btn-primary" style={{ marginTop: 'auto' }}>
             Admin Console
           </button>
         </div>
